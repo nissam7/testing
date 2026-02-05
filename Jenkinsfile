@@ -9,17 +9,17 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        stage('Build Docker Image') {
             steps {
-                echo "No build required for static frontend"
+                sh 'docker build -t html-site .'
             }
         }
 
-        stage('Deploy') {
+        stage('Run Container') {
             steps {
                 sh '''
-                sudo rm -rf /var/www/html/*
-                sudo cp -r * /var/www/html/
+                docker rm -f html-container || true
+                docker run -d -p 8081:80 --name html-container html-site
                 '''
             }
         }
