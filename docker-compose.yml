@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      DB_HOST: database-1.cv6m8aiiqflt.eu-north-1.rds.amazonaws.com
+      DB_USER: admin
+      DB_PASS: password
+      DB_NAME: contactdb
+

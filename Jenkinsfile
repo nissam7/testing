@@ -1,22 +1,24 @@
 pipeline {
-    agent any
+  agent any
 
-    stages {
-
-        stage('Build Docker Image') {
-            steps {
-                sh 'docker build -t html-site .'
-            }
-        }
-
-        stage('Run Container') {
-            steps {
-                sh '''
-                docker rm -f html-container || true
-                docker run -d -p 8081:80 --name html-container html-site
-                '''
-            }
-        }
+  stages {
+    stage('Checkout') {
+      steps {
+        git clone https://github.com/nissam7/testing.git
+      }
     }
+
+    stage('Build') {
+      steps {
+        sh 'docker build -t contact-app .'
+      }
+    }
+
+    stage('Deploy') {
+      steps {
+        sh 'docker-compose up -d'
+      }
+    }
+  }
 }
 

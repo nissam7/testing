@@ -1,5 +1,14 @@
-FROM nginx:latest
+FROM python:3.10-slim
 
-COPY 1.html /usr/share/nginx/html/index.html
+WORKDIR /app
 
-EXPOSE 80
+COPY backend/requirements.txt .
+RUN pip install -r requirements.txt
+
+COPY backend/ backend/
+COPY frontend/ frontend/
+
+EXPOSE 5000
+
+CMD ["python", "backend/app.py"]
+
