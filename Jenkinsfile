@@ -1,24 +1,17 @@
 pipeline {
-  agent any
+    agent any
 
-  stages {
-    stage('Checkout') {
-      steps {
-        git 'https://github.com/nissam7/testing.git'
-      }
-    }
+    stages {
+        stage('Build') {
+            steps {
+                sh 'docker build -t contact-app .'
+            }
+        }
 
-    stage('Build') {
-      steps {
-        sh 'docker build -t contact-app .'
-      }
+        stage('Deploy') {
+            steps {
+                sh 'docker-compose up -d'
+            }
+        }
     }
-
-    stage('Deploy') {
-      steps {
-        sh 'docker-compose up -d'
-      }
-    }
-  }
 }
-
