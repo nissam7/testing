@@ -10,4 +10,4 @@ services:
       DB_USER: admin
       DB_PASS: password
       DB_NAME: contactdb
-
+    restart: always
