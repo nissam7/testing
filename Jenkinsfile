@@ -4,7 +4,7 @@ pipeline {
   stages {
     stage('Checkout') {
       steps {
-        git clone https://github.com/nissam7/testing.git
+        git 'https://github.com/nissam7/testing.git'
       }
     }
 
