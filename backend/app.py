@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, send_from_directory
 import mysql.connector
 import os
 
@@ -13,25 +13,23 @@ def get_db():
         connection_timeout=5
     )
 
+@app.route("/", methods=["GET"])
+def index():
+    return send_from_directory("frontend", "1.html")
+
 @app.route("/", methods=["POST"])
 def submit():
-    try:
-        db = get_db()
-        cursor = db.cursor()
-
-        cursor.execute(
-            "INSERT INTO contacts (name, email, message) VALUES (%s, %s, %s)",
-            (
-                request.form["name"],
-                request.form["email"],
-                request.form["message"]
-            )
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute(
+        "INSERT INTO contacts (name, email, message) VALUES (%s, %s, %s)",
+        (
+            request.form["name"],
+            request.form["email"],
+            request.form["message"]
         )
-
-        db.commit()
-        return "Form submitted successfully"
-
-    except Exception as e:
-        return f"Database error: {str(e)}", 500
+    )
+    db.commit()
+    return "Form submitted successfully ✅"
 
 app.run(host="0.0.0.0", port=5000)
